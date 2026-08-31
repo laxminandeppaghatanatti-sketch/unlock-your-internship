@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Application Tracker — Unlock Your Internship</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0d12; --surface: #141922; --surface-alt: #1b212c; --border: #262d3a;
+    --text: #e9ecf2; --muted: #8b93a7; --teal: #2dd4bf; --teal-dim: #2dd4bf22;
+    --amber: #f5a623; --amber-dim: #f5a62322; --red: #e5484d; --red-dim: #e5484d22;
+    --green: #4ade80; --green-dim: #4ade8022;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; }
+  nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 22px 6vw; border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: 'Sora', sans-serif; font-weight: 700; font-size: 17px;
+    letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px;
+    text-decoration: none; color: var(--text);
+  }
+  .logo-mark { width: 9px; height: 9px; border-radius: 3px; background: var(--teal); box-shadow: 0 0 10px var(--teal); }
+  .nav-links { display: flex; gap: 22px; align-items: center; }
+  .nav-links a { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); text-decoration: none; }
+  .nav-links a:hover { color: var(--teal); }
+
+  .wrap { max-width: 700px; margin: 0 auto; padding: 48px 6vw 100px; }
+
+  h1 { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 28px; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .page-sub { color: var(--muted); font-size: 14px; margin-bottom: 34px; line-height: 1.5; }
+
+  .field { margin-bottom: 18px; }
+  label {
+    display: block; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px;
+    color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px;
+  }
+  input[type="text"], input[type="date"] {
+    width: 100%; background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px;
+    padding: 12px 14px; border-radius: 8px;
+  }
+  input:focus { outline: 2px solid var(--teal); outline-offset: 1px; border-color: transparent; }
+
+  .form-row { display: flex; gap: 14px; }
+  .form-row .field { flex: 1; }
+
+  button.btn-primary {
+    font-family: 'Sora', sans-serif; font-weight: 600; font-size: 14.5px;
+    color: var(--bg); background: var(--teal); border: none; padding: 13px 24px;
+    border-radius: 9px; cursor: pointer; margin-top: 6px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  button.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 22px var(--teal-dim); }
+
+  .empty-hint { color: var(--muted); font-size: 13px; font-style: italic; }
+
+  .saved-list { margin-top: 50px; }
+  .saved-list h2 {
+    font-family: 'Sora', sans-serif; font-size: 14px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px;
+  }
+  .app-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px 18px; margin-bottom: 10px;
+  }
+  .app-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; }
+  .app-title { font-family: 'Sora', sans-serif; font-weight: 600; font-size: 15px; }
+  .app-company { color: var(--muted); font-size: 12.5px; margin-top: 2px; }
+  .app-date { color: var(--muted); font-size: 11.5px; font-family: 'IBM Plex Mono', monospace; margin-top: 4px; }
+
+  .status-select {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600;
+    padding: 5px 10px; border-radius: 20px; text-transform: uppercase;
+    border: 1px solid var(--border); cursor: pointer;
+  }
+  .status-Saved { background: var(--surface-alt); color: var(--muted); }
+  .status-Applied { background: var(--teal-dim); color: var(--teal); }
+  .status-Interview { background: var(--amber-dim); color: var(--amber); }
+  .status-Selected { background: var(--green-dim); color: var(--green); }
+  .status-Rejected { background: var(--red-dim); color: var(--red); }
+
+  .delete-btn {
+    background: none; border: none; color: var(--muted); cursor: pointer;
+    font-size: 16px; padding: 0 2px; margin-left: 8px;
+  }
+  .delete-btn:hover { color: var(--red); }
+</style>
+</head>
+<body>
+  <nav>
+    <a class="logo" href="index.html"><span class="logo-mark"></span>Unlock Your Internship</a>
+    <div class="nav-links">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="path-know.html">+ Add Target</a>
+      <a href="index.html">Home</a>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <h1>Application Tracker</h1>
+    <p class="page-sub">Log internships you've actually applied to and track where each one stands.</p>
+
+    <form id="app-form">
+      <div class="field">
+        <label for="app-role">Role Title</label>
+        <input type="text" id="app-role" placeholder="e.g. Backend Developer Intern" required>
+      </div>
+
+      <div class="form-row">
+        <div class="field">
+          <label for="app-company">Company</label>
+          <input type="text" id="app-company" placeholder="e.g. Acme Corp">
+        </div>
+        <div class="field">
+          <label for="app-date">Date Applied</label>
+          <input type="date" id="app-date">
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primary">Save Application</button>
+    </form>
+
+    <div class="saved-list">
+      <h2>Your Applications</h2>
+      <div id="app-list">
+        <p class="empty-hint">No applications logged yet — add one above.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const statuses = ["Saved", "Applied", "Interview", "Selected", "Rejected"];
+
+    document.getElementById("app-form").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const role_title = document.getElementById("app-role").value;
+      const company = document.getElementById("app-company").value;
+      const date_applied = document.getElementById("app-date").value;
+
+      const response = await fetch("http://127.0.0.1:5000/applications", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ role_title, company, date_applied, status: "Saved" })
+      });
+
+      if (response.ok) {
+        document.getElementById("app-form").reset();
+        loadApplications();
+      } else {
+        const result = await response.json();
+        alert("Error: " + result.error);
+      }
+    });
+
+    async function updateStatus(id, newStatus) {
+      await fetch(`http://127.0.0.1:5000/applications/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus })
+      });
+      loadApplications();
+    }
+
+    async function deleteApplication(id) {
+      if (!confirm("Remove this application?")) return;
+      await fetch(`http://127.0.0.1:5000/applications/${id}`, { method: "DELETE" });
+      loadApplications();
+    }
+
+    async function loadApplications() {
+      const response = await fetch("http://127.0.0.1:5000/applications");
+      const apps = await response.json();
+
+      const container = document.getElementById("app-list");
+
+      if (apps.length === 0) {
+        container.innerHTML = `<p class="empty-hint">No applications logged yet — add one above.</p>`;
+        return;
+      }
+
+      container.innerHTML = apps.map(a => `
+        <div class="app-card">
+          <div class="app-top">
+            <div>
+              <div class="app-title">${a.role_title}</div>
+              <div class="app-company">${a.company || "No company listed"}</div>
+              ${a.date_applied ? `<div class="app-date">Applied ${a.date_applied}</div>` : ""}
+            </div>
+            <div style="display:flex; align-items:center;">
+              <select class="status-select status-${a.status}" onchange="updateStatus(${a.id}, this.value)">
+                ${statuses.map(s => `<option value="${s}" ${s === a.status ? "selected" : ""}>${s}</option>`).join("")}
+              </select>
+              <button class="delete-btn" onclick="deleteApplication(${a.id})" aria-label="Delete application">×</button>
+            </div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    loadApplications();
+  </script>
+</body>
+</html>

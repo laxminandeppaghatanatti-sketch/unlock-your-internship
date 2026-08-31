@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Unlock Map — Unlock Your Internship</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0d12; --surface: #141922; --surface-alt: #1b212c; --border: #262d3a;
+    --text: #e9ecf2; --muted: #8b93a7; --teal: #2dd4bf; --teal-dim: #2dd4bf22;
+    --amber: #f5a623; --amber-dim: #f5a62322;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; }
+  nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 22px 6vw; border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: 'Sora', sans-serif; font-weight: 700; font-size: 17px;
+    letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px;
+    text-decoration: none; color: var(--text);
+  }
+  .logo-mark { width: 9px; height: 9px; border-radius: 3px; background: var(--teal); box-shadow: 0 0 10px var(--teal); }
+  nav a.back { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); text-decoration: none; }
+  nav a.back:hover { color: var(--teal); }
+
+  .wrap { max-width: 640px; margin: 0 auto; padding: 48px 6vw 100px; }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--amber); margin-bottom: 10px;
+  }
+  h1 { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 28px; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .page-sub { color: var(--muted); font-size: 14px; margin-bottom: 40px; line-height: 1.5; }
+
+  .map-track { position: relative; padding-left: 34px; }
+  .map-line {
+    position: absolute; left: 12px; top: 10px; bottom: 10px; width: 2px; background: var(--border);
+  }
+  .map-node { position: relative; margin-bottom: 26px; }
+  .node-dot {
+    position: absolute; left: -34px; top: 2px; width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px; font-weight: 600; border: 2px solid var(--border); background: var(--surface); z-index: 2;
+  }
+  .node-dot.unlocked { border-color: var(--teal); color: var(--teal); background: var(--teal-dim); }
+  .node-dot.locked { border-color: var(--amber); color: var(--amber); background: var(--amber-dim); }
+
+  .node-card {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px 18px; cursor: pointer; transition: border-color 0.15s ease;
+  }
+  .node-card:hover { border-color: var(--teal); }
+  .node-card.unlocked { border-left: 3px solid var(--teal); }
+  .node-card.locked { border-left: 3px solid var(--amber); }
+
+  .node-top { display: flex; justify-content: space-between; align-items: center; }
+  .node-name { font-family: 'Sora', sans-serif; font-weight: 700; font-size: 16px; text-transform: capitalize; }
+  .node-status {
+    font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; font-weight: 600;
+    padding: 3px 10px; border-radius: 20px; text-transform: uppercase;
+  }
+  .node-status.unlocked { background: var(--teal-dim); color: var(--teal); }
+  .node-status.locked { background: var(--amber-dim); color: var(--amber); }
+
+  .node-detail { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
+  .node-card.expanded .node-detail { display: block; }
+  .node-detail p { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 8px; }
+  .node-detail .affects { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .mini-tag {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--teal);
+    background: var(--teal-dim); padding: 3px 9px; border-radius: 10px;
+  }
+
+  .end-node {
+    display: flex; align-items: center; gap: 12px; margin-top: 10px;
+    font-family: 'Sora', sans-serif; font-weight: 700; font-size: 15px; color: var(--muted);
+  }
+  .end-dot {
+    width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    border: 2px solid var(--border); background: var(--surface); margin-left: -34px; font-size: 14px;
+  }
+
+  .empty-state {
+    background: var(--surface); border: 1px dashed var(--border); border-radius: 14px;
+    padding: 30px 26px; text-align: center; color: var(--muted); font-size: 14px; line-height: 1.6;
+  }
+  .empty-state a { color: var(--teal); text-decoration: none; }
+</style>
+</head>
+<body>
+  <nav>
+    <a class="logo" href="index.html"><span class="logo-mark"></span>Unlock Your Internship</a>
+    <a class="back" href="dashboard.html">← Back to dashboard</a>
+  </nav>
+
+  <div class="wrap">
+    <div class="eyebrow">Your progress</div>
+    <h1>Unlock Map</h1>
+    <p class="page-sub">
+      Every skill needed across your saved targets. Green means you're strong enough.
+      Amber means it's still locked — click a card to see why it matters.
+    </p>
+
+    <div id="map-container"></div>
+  </div>
+
+  <script>
+    async function loadMap() {
+      const res = await fetch("http://127.0.0.1:5000/skill-impact");
+      const impactData = await res.json();
+
+      const skillsRes = await fetch("http://127.0.0.1:5000/my-skills");
+      const mySkills = await skillsRes.json();
+      const levelMap = {};
+      mySkills.forEach(s => levelMap[s.skill_name.toLowerCase()] = s.level);
+
+      const targetsRes = await fetch("http://127.0.0.1:5000/targets");
+      const targets = await targetsRes.json();
+
+      const allSkillNames = new Set();
+      targets.forEach(t => t.skills.forEach(s => allSkillNames.add(s.toLowerCase())));
+
+      const container = document.getElementById("map-container");
+
+      if (allSkillNames.size === 0) {
+        container.innerHTML = `<div class="empty-state">No target internships yet — <a href="path-know.html">add one to build your map →</a></div>`;
+        return;
+      }
+
+      const gapMap = {};
+      impactData.forEach(g => gapMap[g.skill] = g);
+
+      const allSkills = Array.from(allSkillNames).map(name => {
+        const level = levelMap[name] || 0;
+        const gapInfo = gapMap[name];
+        const isUnlocked = level >= 60;
+        const affectingTargets = targets.filter(t =>
+          t.skills.some(s => s.toLowerCase() === name)
+        );
+        return {
+          name,
+          level,
+          unlocked: isUnlocked,
+          impactScore: gapInfo ? gapInfo.impact_score : 0,
+          affectingTargets
+        };
+      });
+
+      allSkills.sort((a, b) => b.impactScore - a.impactScore);
+
+      let html = `<div class="map-track"><div class="map-line"></div>`;
+
+      allSkills.forEach((skill, i) => {
+        const statusClass = skill.unlocked ? "unlocked" : "locked";
+        const statusText = skill.unlocked ? "Unlocked" : "Locked";
+        const dotIcon = skill.unlocked ? "✓" : "🔒";
+
+        html += `
+          <div class="map-node">
+            <div class="node-dot ${statusClass}">${dotIcon}</div>
+            <div class="node-card ${statusClass}" onclick="this.classList.toggle('expanded')">
+              <div class="node-top">
+                <span class="node-name">${skill.name}</span>
+                <span class="node-status ${statusClass}">${statusText}</span>
+              </div>
+              <div class="node-detail">
+                <p>Current level: ${skill.level}/100. Required by ${skill.affectingTargets.length} of your saved targets.</p>
+                <div class="affects">
+                  ${skill.affectingTargets.map(t => `<span class="mini-tag">${t.role_title}</span>`).join("")}
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+
+      html += `
+        <div class="end-node">
+          <div class="end-dot">🚀</div>
+          Ready for more targets
+        </div>
+      </div>`;
+
+      container.innerHTML = html;
+    }
+
+    loadMap();
+  </script>
+</body>
+</html>

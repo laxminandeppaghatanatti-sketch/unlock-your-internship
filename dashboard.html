@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Dashboard — Unlock Your Internship</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0d12; --surface: #141922; --surface-alt: #1b212c; --border: #262d3a;
+    --text: #e9ecf2; --muted: #8b93a7; --teal: #2dd4bf; --teal-dim: #2dd4bf22;
+    --amber: #f5a623; --amber-dim: #f5a62322; --red: #e5484d;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; }
+  nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 22px 6vw; border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: 'Sora', sans-serif; font-weight: 700; font-size: 17px;
+    letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px;
+    text-decoration: none; color: var(--text);
+  }
+  .logo-mark { width: 9px; height: 9px; border-radius: 3px; background: var(--teal); box-shadow: 0 0 10px var(--teal); }
+  .nav-links { display: flex; gap: 22px; align-items: center; }
+  .nav-links a { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); text-decoration: none; }
+  .nav-links a:hover { color: var(--teal); }
+
+  .wrap { max-width: 760px; margin: 0 auto; padding: 48px 6vw 100px; }
+
+  h1 { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 30px; letter-spacing: -0.02em; margin-bottom: 6px; }
+  .page-sub { color: var(--muted); font-size: 14px; margin-bottom: 36px; }
+
+  h2 {
+    font-family: 'Sora', sans-serif; font-weight: 600; font-size: 15px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.06em; margin: 44px 0 16px;
+  }
+
+  .hero-action {
+    background: linear-gradient(135deg, var(--surface), var(--surface-alt));
+    border: 1px solid var(--teal); border-radius: 14px; padding: 28px 26px;
+  }
+  .hero-action .label {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--teal); margin-bottom: 10px;
+  }
+  .hero-action .skill-title {
+    font-family: 'Sora', sans-serif; font-weight: 800; font-size: 24px;
+    text-transform: capitalize; margin-bottom: 10px;
+  }
+  .hero-action .why { color: var(--muted); font-size: 14px; line-height: 1.6; margin-bottom: 16px; }
+  .hero-stats { display: flex; gap: 24px; flex-wrap: wrap; }
+  .hero-stat { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted); }
+  .hero-stat b { color: var(--text); font-size: 15px; display: block; }
+
+  .empty-state {
+    background: var(--surface); border: 1px dashed var(--border); border-radius: 14px;
+    padding: 30px 26px; text-align: center; color: var(--muted); font-size: 14px; line-height: 1.6;
+  }
+  .empty-state a { color: var(--teal); text-decoration: none; }
+
+  .target-mini {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 18px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;
+  }
+  .target-mini .title { font-family: 'Sora', sans-serif; font-weight: 600; font-size: 14.5px; }
+  .target-mini .company { color: var(--muted); font-size: 12.5px; margin-left: 8px; }
+  .priority-tag {
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 600; padding: 4px 10px;
+    border-radius: 20px; text-transform: uppercase; background: var(--teal-dim); color: var(--teal);
+  }
+
+  .skill-row {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 12px 16px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .skill-row .name { font-family: 'Sora', sans-serif; font-weight: 600; font-size: 14px; text-transform: capitalize; }
+  .level-bar-track { width: 90px; height: 6px; background: var(--surface-alt); border-radius: 4px; overflow: hidden; }
+  .level-bar-fill { height: 100%; background: var(--teal); }
+  .level-wrap { display: flex; align-items: center; gap: 10px; }
+  .level-num { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); }
+  .delete-btn {
+    background: none; border: none; color: var(--muted); cursor: pointer;
+    font-size: 17px; padding: 0 2px; line-height: 1; transition: color 0.15s ease;
+  }
+  .delete-btn:hover { color: var(--red); }
+</style>
+</head>
+<body>
+  <nav>
+    <a class="logo" href="index.html"><span class="logo-mark"></span>Unlock Your Internship</a>
+    <div class="nav-links">
+      <a href="path-know.html">+ Add Target</a>
+      <a href="my-skills.html">My Skills</a>
+      <a href="unlock-map.html">Unlock Map</a>
+     <a href="applications.html">Applications</a>
+      <a href="index.html">Home</a>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <h1>Dashboard</h1>
+    <p class="page-sub">Your next best action, based on everything you've saved so far.</p>
+
+    <h2>Next Best Action</h2>
+    <div id="recommendation"></div>
+
+    <h2>Your Target Internships</h2>
+    <div id="targets"></div>
+
+    <h2>Your Skills</h2>
+    <div id="skills"></div>
+  </div>
+
+  <script>
+    async function loadRecommendation() {
+      const res = await fetch("http://127.0.0.1:5000/top-recommendation");
+      const data = await res.json();
+      const container = document.getElementById("recommendation");
+
+      if (data.message) {
+        container.innerHTML = `
+          <div class="empty-state">
+            ${data.message}<br><br>
+            <a href="path-know.html">Add a target internship →</a>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        <div class="hero-action">
+          <div class="label">Focus On</div>
+          <div class="skill-title">${data.skill}</div>
+          <div class="why">${data.why}</div>
+          <div class="hero-stats">
+            <div class="hero-stat"><b>${data.current_level}/100</b>Current Level</div>
+            <div class="hero-stat"><b>${data.affects_targets}</b>Targets Affected</div>
+            <div class="hero-stat"><b>${data.impact_score}</b>Impact Score</div>
+          </div>
+        </div>
+      `;
+    }
+
+    async function loadTargets() {
+      const res = await fetch("http://127.0.0.1:5000/targets");
+      const targets = await res.json();
+      const container = document.getElementById("targets");
+
+      if (targets.length === 0) {
+        container.innerHTML = `<div class="empty-state">No target internships yet — <a href="path-know.html">add one →</a></div>`;
+        return;
+      }
+
+      container.innerHTML = targets.map(t => `
+        <div class="target-mini">
+          <div><span class="title">${t.role_title}</span><span class="company">${t.company || ""}</span></div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="priority-tag">${t.priority}</span>
+            <button class="delete-btn" onclick="deleteTarget(${t.id})" aria-label="Delete target">×</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    async function loadSkills() {
+      const res = await fetch("http://127.0.0.1:5000/my-skills");
+      const skills = await res.json();
+      const container = document.getElementById("skills");
+
+      if (skills.length === 0) {
+        container.innerHTML = `<div class="empty-state">No skills added yet — <a href="my-skills.html">add some →</a></div>`;
+        return;
+      }
+
+      container.innerHTML = skills.map(s => `
+        <div class="skill-row">
+          <span class="name">${s.skill_name}</span>
+          <div class="level-wrap">
+            <div class="level-bar-track"><div class="level-bar-fill" style="width:${s.level}%"></div></div>
+            <span class="level-num">${s.level}</span>
+            <button class="delete-btn" onclick="deleteSkill(${s.id})" aria-label="Delete skill">×</button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    async function deleteTarget(id) {
+      if (!confirm("Remove this target internship?")) return;
+      await fetch(`http://127.0.0.1:5000/targets/${id}`, { method: "DELETE" });
+      loadTargets();
+      loadRecommendation();
+    }
+
+    async function deleteSkill(id) {
+      if (!confirm("Remove this skill?")) return;
+      await fetch(`http://127.0.0.1:5000/my-skills/${id}`, { method: "DELETE" });
+      loadSkills();
+      loadRecommendation();
+    }
+
+    loadRecommendation();
+    loadTargets();
+    loadSkills();
+  </script>
+</body>
+</html>

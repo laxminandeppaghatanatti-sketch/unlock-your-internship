@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>My Skills — Unlock Your Internship</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0d12; --surface: #141922; --surface-alt: #1b212c; --border: #262d3a;
+    --text: #e9ecf2; --muted: #8b93a7; --teal: #2dd4bf; --teal-dim: #2dd4bf22;
+    --amber: #f5a623; --amber-dim: #f5a62322; --red: #e5484d;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; }
+  nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 22px 6vw; border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: 'Sora', sans-serif; font-weight: 700; font-size: 17px;
+    letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px;
+    text-decoration: none; color: var(--text);
+  }
+  .logo-mark { width: 9px; height: 9px; border-radius: 3px; background: var(--teal); box-shadow: 0 0 10px var(--teal); }
+  nav a.back { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); text-decoration: none; }
+  nav a.back:hover { color: var(--teal); }
+
+  .wrap { max-width: 600px; margin: 0 auto; padding: 48px 6vw 100px; }
+
+  .eyebrow {
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--amber); margin-bottom: 10px;
+  }
+  h1 { font-family: 'Sora', sans-serif; font-weight: 800; font-size: 28px; letter-spacing: -0.02em; margin-bottom: 8px; }
+  .page-sub { color: var(--muted); font-size: 14px; margin-bottom: 34px; line-height: 1.5; }
+
+  .field { margin-bottom: 20px; }
+  label {
+    display: block; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px;
+    color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px;
+  }
+  input[type="text"], input[type="range"] {
+    width: 100%; background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); font-family: 'Inter', sans-serif; font-size: 14px;
+    padding: 12px 14px; border-radius: 8px;
+  }
+  input:focus { outline: 2px solid var(--teal); outline-offset: 1px; border-color: transparent; }
+
+  .slider-row { display: flex; align-items: center; gap: 14px; }
+  input[type="range"] { padding: 0; accent-color: var(--teal); cursor: pointer; }
+  .slider-value {
+    font-family: 'IBM Plex Mono', monospace; font-size: 15px; font-weight: 600;
+    color: var(--teal); min-width: 42px; text-align: right;
+  }
+
+  button.btn-primary {
+    font-family: 'Sora', sans-serif; font-weight: 600; font-size: 14.5px;
+    color: var(--bg); background: var(--teal); border: none; padding: 13px 24px;
+    border-radius: 9px; cursor: pointer; margin-top: 10px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  button.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 22px var(--teal-dim); }
+
+  .empty-hint { color: var(--muted); font-size: 13px; font-style: italic; }
+
+  .saved-list { margin-top: 50px; }
+  .saved-list h2 {
+    font-family: 'Sora', sans-serif; font-size: 14px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 16px;
+  }
+  .skill-row {
+    background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+    padding: 14px 18px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;
+  }
+  .skill-row .name { font-family: 'Sora', sans-serif; font-weight: 600; font-size: 14.5px; }
+  .skill-row .level-bar-wrap { display: flex; align-items: center; gap: 10px; }
+  .level-bar-track { width: 100px; height: 6px; background: var(--surface-alt); border-radius: 4px; overflow: hidden; }
+  .level-bar-fill { height: 100%; background: var(--teal); }
+  .level-num { font-family: 'IBM Plex Mono', monospace; font-size: 12.5px; color: var(--muted); min-width: 30px; text-align: right; }
+</style>
+</head>
+<body>
+  <nav>
+    <a class="logo" href="index.html"><span class="logo-mark"></span>Unlock Your Internship</a>
+    <a class="back" href="index.html">← Back to home</a>
+  </nav>
+
+  <div class="wrap">
+    <div class="eyebrow">Your Profile</div>
+    <h1>My Skills</h1>
+    <p class="page-sub">
+      Add the skills you actually have and your honest current level. This is what
+      gets compared against your target internships to find your biggest gap.
+    </p>
+
+    <form id="skill-form">
+      <div class="field">
+        <label for="skill-name">Skill Name</label>
+        <input type="text" id="skill-name" placeholder="e.g. Python" required>
+      </div>
+
+      <div class="field">
+        <label for="skill-level">Your Level</label>
+        <div class="slider-row">
+          <input type="range" id="skill-level" min="0" max="100" value="50">
+          <span class="slider-value" id="level-display">50</span>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primary">Save Skill</button>
+    </form>
+
+    <div class="saved-list">
+      <h2>Your Skills</h2>
+      <div id="skills-list">
+        <p class="empty-hint">No skills added yet — add one above.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const levelSlider = document.getElementById("skill-level");
+    const levelDisplay = document.getElementById("level-display");
+    levelSlider.addEventListener("input", () => {
+      levelDisplay.textContent = levelSlider.value;
+    });
+
+    document.getElementById("skill-form").addEventListener("submit", async function(e) {
+      e.preventDefault();
+
+      const skillName = document.getElementById("skill-name").value.trim();
+      const level = parseInt(levelSlider.value);
+
+      if (!skillName) return;
+
+      const response = await fetch("http://127.0.0.1:5000/my-skills", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ skill_name: skillName, level: level })
+      });
+
+      if (response.ok) {
+        document.getElementById("skill-form").reset();
+        levelDisplay.textContent = "50";
+        levelSlider.value = 50;
+        loadSkills();
+      } else {
+        const result = await response.json();
+        alert("Error: " + result.error);
+      }
+    });
+
+    async function loadSkills() {
+      const response = await fetch("http://127.0.0.1:5000/my-skills");
+      const skills = await response.json();
+
+      const container = document.getElementById("skills-list");
+
+      if (skills.length === 0) {
+        container.innerHTML = `<p class="empty-hint">No skills added yet — add one above.</p>`;
+        return;
+      }
+
+      container.innerHTML = skills.map(s => `
+        <div class="skill-row">
+          <span class="name">${s.skill_name}</span>
+          <div class="level-bar-wrap">
+            <div class="level-bar-track"><div class="level-bar-fill" style="width:${s.level}%"></div></div>
+            <span class="level-num">${s.level}</span>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    loadSkills();
+  </script>
+</body>
+</html>
