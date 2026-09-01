@@ -1,14 +1,17 @@
-from impact_engine import get_skill_impact, get_top_recommendation
+import os
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from database import get_connection, init_db
+from impact_engine import get_skill_impact, get_top_recommendation
 
 app = Flask(__name__)
 CORS(app)
 
+
 @app.route("/")
 def home():
     return "Unlock Your Internship API is running"
+
 
 @app.route("/targets", methods=["POST"])
 def add_target():
@@ -43,6 +46,41 @@ def add_target():
     conn.close()
 
     return jsonify({"message": "Target internship saved", "id": target_id}), 201
+
+
+@app.route("/targets", methods=["GET"])
+def get_targets():
+    conn = get_connection()
+    targets = conn.execute("SELECT * FROM targets").fetchall()
+
+    result = []
+    for t in targets:
+        skills = conn.execute(
+            "SELECT skill_name FROM target_skills WHERE target_id = ?", (t["id"],)
+        ).fetchall()
+        result.append({
+            "id": t["id"],
+            "role_title": t["role_title"],
+            "company": t["company"],
+            "source_url": t["source_url"],
+            "priority": t["priority"],
+            "skills": [s["skill_name"] for s in skills]
+        })
+
+    conn.close()
+    return jsonify(result)
+
+
+@app.route("/targets/<int:target_id>", methods=["DELETE"])
+def delete_target(target_id):
+    conn = get_connection()
+    conn.execute("DELETE FROM target_skills WHERE target_id = ?", (target_id,))
+    conn.execute("DELETE FROM targets WHERE id = ?", (target_id,))
+    conn.commit()
+    conn.close()
+    return jsonify({"message": "Target deleted"})
+
+
 @app.route("/my-skills", methods=["POST"])
 def add_my_skill():
     data = request.get_json()
@@ -76,42 +114,6 @@ def get_my_skills():
     rows = conn.execute("SELECT * FROM my_skills").fetchall()
     conn.close()
     return jsonify([dict(row) for row in rows])
-@app.route("/targets", methods=["GET"])
-def get_targets():
-    conn = get_connection()
-    targets = conn.execute("SELECT * FROM targets").fetchall()
-
-    result = []
-    for t in targets:
-        skills = conn.execute(
-            "SELECT skill_name FROM target_skills WHERE target_id = ?", (t["id"],)
-        ).fetchall()
-        result.append({
-            "id": t["id"],
-            "role_title": t["role_title"],
-            "company": t["company"],
-            "source_url": t["source_url"],
-            "priority": t["priority"],
-            "skills": [s["skill_name"] for s in skills]
-        })
-
-    conn.close()
-    return jsonify(result)
-@app.route("/skill-impact", methods=["GET"])
-def skill_impact_route():
-    return jsonify(get_skill_impact())
-
-@app.route("/top-recommendation", methods=["GET"])
-def top_recommendation_route():
-    return jsonify(get_top_recommendation())
-@app.route("/targets/<int:target_id>", methods=["DELETE"])
-def delete_target(target_id):
-    conn = get_connection()
-    conn.execute("DELETE FROM target_skills WHERE target_id = ?", (target_id,))
-    conn.execute("DELETE FROM targets WHERE id = ?", (target_id,))
-    conn.commit()
-    conn.close()
-    return jsonify({"message": "Target deleted"})
 
 
 @app.route("/my-skills/<int:skill_id>", methods=["DELETE"])
@@ -121,6 +123,18 @@ def delete_my_skill(skill_id):
     conn.commit()
     conn.close()
     return jsonify({"message": "Skill deleted"})
+
+
+@app.route("/skill-impact", methods=["GET"])
+def skill_impact_route():
+    return jsonify(get_skill_impact())
+
+
+@app.route("/top-recommendation", methods=["GET"])
+def top_recommendation_route():
+    return jsonify(get_top_recommendation())
+
+
 @app.route("/applications", methods=["POST"])
 def add_application():
     data = request.get_json()
@@ -174,8 +188,9 @@ def delete_application(app_id):
     conn.commit()
     conn.close()
     return jsonify({"message": "Application deleted"})
+
+
 if __name__ == "__main__":
     init_db()
-        import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
