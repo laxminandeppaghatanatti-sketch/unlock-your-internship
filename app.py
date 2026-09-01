@@ -1,5 +1,5 @@
 import os
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
 from database import get_connection, init_db
 from impact_engine import get_skill_impact, get_top_recommendation
@@ -10,7 +10,35 @@ CORS(app)
 
 @app.route("/")
 def home():
-    return "Unlock Your Internship API is running"
+    return render_template("index.html")
+
+@app.route("/dashboard.html")
+def dashboard_page():
+    return render_template("dashboard.html")
+
+@app.route("/path-know.html")
+def path_know_page():
+    return render_template("path-know.html")
+
+@app.route("/path-find.html")
+def path_find_page():
+    return render_template("path-find.html")
+
+@app.route("/path-lost.html")
+def path_lost_page():
+    return render_template("path-lost.html")
+
+@app.route("/my-skills.html")
+def my_skills_page():
+    return render_template("my-skills.html")
+
+@app.route("/unlock-map.html")
+def unlock_map_page():
+    return render_template("unlock-map.html")
+
+@app.route("/applications.html")
+def applications_page():
+    return render_template("applications.html")
 
 
 @app.route("/targets", methods=["POST"])
