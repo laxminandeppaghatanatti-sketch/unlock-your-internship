@@ -5,7 +5,7 @@ from database import get_connection, init_db
 from impact_engine import get_skill_impact, get_top_recommendation
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 @app.route("/")

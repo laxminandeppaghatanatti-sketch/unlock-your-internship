@@ -131,7 +131,7 @@
         <label for="company">Company</label>
         <input type="text" id="company" placeholder="e.g. Acme Corp">
       </div>
-
+SSSS
       <div class="field">
         <label for="source-url">Original Listing URL <span style="text-transform:none;font-weight:400;">(optional)</span></label>
         <input type="url" id="source-url" placeholder="https://...">
@@ -212,7 +212,7 @@
       const sourceUrl = document.getElementById("source-url").value;
       const priority = document.querySelector(".priority-chip.selected").dataset.value;
 
-      const response = await fetch("http://127.0.0.1:5000/targets", {
+      const response = await fetch("https://unlock-your-internship.onrender.com/targets", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -237,7 +237,7 @@
     });
 
     async function loadTargets() {
-      const response = await fetch("http://127.0.0.1:5000/targets");
+      const response = await fetch("https://unlock-your-internship.onrender.com/targets");
       const targets = await response.json();
 
       const container = document.getElementById("targets-list");
