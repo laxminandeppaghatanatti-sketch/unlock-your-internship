@@ -116,7 +116,7 @@
 
   <script>
     async function loadRecommendation() {
-      const res = await fetch("http://127.0.0.1:5000/top-recommendation");
+      const res = await fetch("https://unlock-your-internship.onrender.com/top-recommendation");
       const data = await res.json();
       const container = document.getElementById("recommendation");
 
@@ -145,7 +145,7 @@
     }
 
     async function loadTargets() {
-      const res = await fetch("http://127.0.0.1:5000/targets");
+      const res = await fetch("https://unlock-your-internship.onrender.com/targets");
       const targets = await res.json();
       const container = document.getElementById("targets");
 
@@ -166,7 +166,7 @@
     }
 
     async function loadSkills() {
-      const res = await fetch("http://127.0.0.1:5000/my-skills");
+      const res = await fetch("https://unlock-your-internship.onrender.com/my-skills");
       const skills = await res.json();
       const container = document.getElementById("skills");
 
@@ -189,14 +189,14 @@
 
     async function deleteTarget(id) {
       if (!confirm("Remove this target internship?")) return;
-      await fetch(`http://127.0.0.1:5000/targets/${id}`, { method: "DELETE" });
+      await fetch(`https://unlock-your-internship.onrender.com/targets/${id}`, { method: "DELETE" });
       loadTargets();
       loadRecommendation();
     }
 
     async function deleteSkill(id) {
       if (!confirm("Remove this skill?")) return;
-      await fetch(`http://127.0.0.1:5000/my-skills/${id}`, { method: "DELETE" });
+      await fetch(`https://unlock-your-internship.onrender.com/my-skills/${id}`, { method: "DELETE" });
       loadSkills();
       loadRecommendation();
     }

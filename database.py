@@ -44,6 +44,16 @@ def init_db():
             notes TEXT
         )
     """)
+
+    conn.execute("""
+    CREATE TABLE IF NOT EXISTS target_eligibility (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        target_id INTEGER NOT NULL,
+        requirement TEXT NOT NULL,
+        met INTEGER NOT NULL DEFAULT 0,
+        FOREIGN KEY (target_id) REFERENCES targets (id)
+    )
+""")
     conn.commit()
     conn.close()
 

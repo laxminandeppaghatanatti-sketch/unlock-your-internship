@@ -110,15 +110,16 @@
 
   <script>
     async function loadMap() {
-      const res = await fetch("http://127.0.0.1:5000/skill-impact");
+
+      const res = await fetch("https://unlock-your-internship.onrender.com/skill-impact");
       const impactData = await res.json();
 
-      const skillsRes = await fetch("http://127.0.0.1:5000/my-skills");
+      const skillsRes = await fetch("https://unlock-your-internship.onrender.com/my-skills");
       const mySkills = await skillsRes.json();
       const levelMap = {};
       mySkills.forEach(s => levelMap[s.skill_name.toLowerCase()] = s.level);
 
-      const targetsRes = await fetch("http://127.0.0.1:5000/targets");
+      const targetsRes = await fetch("https://unlock-your-internship.onrender.com/targets");
       const targets = await targetsRes.json();
 
       const allSkillNames = new Set();

@@ -86,13 +86,17 @@ def get_targets():
         skills = conn.execute(
             "SELECT skill_name FROM target_skills WHERE target_id = ?", (t["id"],)
         ).fetchall()
+        eligibility = conn.execute(
+            "SELECT requirement, met FROM target_eligibility WHERE target_id = ?", (t["id"],)
+        ).fetchall()
         result.append({
             "id": t["id"],
             "role_title": t["role_title"],
             "company": t["company"],
             "source_url": t["source_url"],
             "priority": t["priority"],
-            "skills": [s["skill_name"] for s in skills]
+            "skills": [s["skill_name"] for s in skills],
+            "eligibility": [{"requirement": e["requirement"], "met": bool(e["met"])} for e in eligibility]
         })
 
     conn.close()
@@ -108,7 +112,33 @@ def delete_target(target_id):
     conn.close()
     return jsonify({"message": "Target deleted"})
 
+@app.route("/targets/<int:target_id>/eligibility", methods=["POST"])
+def add_eligibility(target_id):
+    data = request.get_json()
+    if not data or "requirement" not in data:
+        return jsonify({"error": "requirement is required"}), 400
 
+    requirement = data["requirement"]
+    met = 1 if data.get("met") else 0
+
+    conn = get_connection()
+    conn.execute(
+        "INSERT INTO target_eligibility (target_id, requirement, met) VALUES (?, ?, ?)",
+        (target_id, requirement, met)
+    )
+    conn.commit()
+    conn.close()
+    return jsonify({"message": "Eligibility requirement added"}), 201
+
+
+@app.route("/targets/<int:target_id>/eligibility", methods=["GET"])
+def get_eligibility(target_id):
+    conn = get_connection()
+    rows = conn.execute(
+        "SELECT * FROM target_eligibility WHERE target_id = ?", (target_id,)
+    ).fetchall()
+    conn.close()
+    return jsonify([dict(row) for row in rows])
 @app.route("/my-skills", methods=["POST"])
 def add_my_skill():
     data = request.get_json()
