@@ -247,7 +247,19 @@ def delete_application(app_id):
     conn.close()
     return jsonify({"message": "Application deleted"})
 
+@app.route("/eligibility/<int:eligibility_id>", methods=["PUT"])
+def update_eligibility(eligibility_id):
+    data = request.get_json()
+    if not data or "met" not in data:
+        return jsonify({"error": "met is required"}), 400
 
+    met = 1 if data["met"] else 0
+
+    conn = get_connection()
+    conn.execute("UPDATE target_eligibility SET met = ? WHERE id = ?", (met, eligibility_id))
+    conn.commit()
+    conn.close()
+    return jsonify({"message": "Eligibility updated"})
 if __name__ == "__main__":
     init_db()
     port = int(os.environ.get("PORT", 5000))
