@@ -1,5 +1,3 @@
-
-App · PY
 import os
 from flask import Flask, jsonify, request, render_template
 from flask_cors import CORS
